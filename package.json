@@ -8,8 +8,8 @@
     "make": "electron-forge make",
     "package": "electron-forge package"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "bkmaverick",
+  "license": "MIT",
   "dependencies": {
     "crypto": "^1.0.1",
     "electron-squirrel-startup": "^1.0.0",
