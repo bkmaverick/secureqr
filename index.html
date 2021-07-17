@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'">
+    <title>Secure QR</title>
+    <link rel="stylesheet" href="photon/dist/css/photon.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="assets/html5-qrcode.min.js"></script>
+    <script>
+        window.$ = window.jQuery = require('jquery');
+        require('jquery-validation');
+    </script>
+    <script src="app.js"></script>
+</head>
+
+<body>
+    <div class="window">
+        <div class="window-content screen" id="screen0">
+            <div class="pane-group">
+                <div class="pane">
+                    <div class="first-step">
+                        <a class="my-button nav-button" onclick="changeScreen(1)">
+                            <img src="assets/lock_white_24dp.svg" width="50" height="50" />
+                            <div>Encrypt</div>
+                        </a>
+                        <a class="my-button nav-button" onclick="changeScreen(2)">
+                            <img src="assets/qr_code_white_24dp.svg" width="50" height="50" />
+                            <div>Decrypt</div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="window-content screen" id="screen1">
+            <div class="pane-group">
+                <div class="pane">
+                    <div class="first-step">
+                        <a class="my-button back-button" onclick="changeScreen(0)">
+                            <img src="assets/arrow_back_ios_white_24dp.svg" width="20" height="20" />
+                        </a>
+                        <a class="nav-logo">
+                            <img src="assets/lock_white_24dp.svg" width="30" height="30" />
+                            <div>Encrypt</div>
+                        </a>
+                        <br />
+                        <form id="encryptForm">
+                            <div class="form-group hide-on-show">
+                                <label>Password</label>
+                                <input name="pass" type="password" class="form-control" placeholder="Password" required id="pass">
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm Password</label>
+                                <input name="conf" type="password" class="form-control" placeholder="Confirm Password"
+                                    required equalTo='#pass'>
+                            </div>
+                            <div class="form-group">
+                                <label>Text to Encrypt ( max 500 chars )</label>
+                                <textarea name="text" type="text" class="form-control" required></textarea>
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn btn-form btn-default" onclick="return encrypt()">ENCRYPT</button>
+                            </div>
+                        </form>
+                        <div id="encryptQRWrap">
+                            <canvas id="encryptQR"></canvas>
+                            <div class="center-content">
+                                <button id="saveQR" class="btn btn-form btn-default" onclick="return saveQR()">SAVE
+                                    QR</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="window-content screen" id="screen2">
+            <div class="pane-group">
+                <div class="pane">
+                    <div class="first-step">
+                        <a class="my-button back-button" onclick="changeScreen(0)">
+                            <img src="assets/arrow_back_ios_white_24dp.svg" width="20" height="20" />
+                        </a>
+                        <a class="nav-logo">
+                            <img src="assets/qr_code_white_24dp.svg" width="30" height="30" />
+                            <div>Decrypt</div>
+                        </a>
+                        <form id="decryptForm">
+                            <div id="reader" width=300></div>
+                            <br />
+                            <div class="form-actions hide-on-scan" id="startScaningWrapper">
+                                <button id="startScaning" class="btn btn-form btn-default"
+                                    onclick="return startScan()">SCAN QR</button>
+                            </div>
+                            <br />
+                            <div class="form-group hide-on-scan">
+                                <label>Encrypted Data</label>
+                                <input name="scannedData" class="form-control" id="scannedData" placeholder="Use the QR Scanner"></label>
+                            </div>
+                            <div class="form-group hide-on-scan">
+                                <label>Password</label>
+                                <input name="password" type="password" class="form-control" placeholder="Password">
+                            </div>
+                            <div class="form-actions hide-on-scan">
+                                <button class="btn btn-form btn-default" onclick="return decrypt()">DECRYPT</button>
+                            </div>
+                            <div class="form-group hide-on-scan">
+                                <label>Decrypted</label>
+                                <textarea id="decrypted" type="text" class="form-control" readonly></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
